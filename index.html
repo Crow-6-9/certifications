@@ -5,136 +5,501 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gaurav Patel - Certifications</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-gradient-start: #0f172a;
+            --bg-gradient-end: #1e293b;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-main: #f8fafc;
+            --text-secondary: #cbd5e1;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+        }
+
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(120deg, #e0eafc, #cfdef3);
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Background animated blur elements */
+        .bg-glow {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 15s infinite alternate ease-in-out;
+            pointer-events: none;
+        }
+
+        .glow-1 {
+            width: 500px;
+            height: 500px;
+            background: #4f46e5;
+            top: -100px;
+            left: -100px;
+        }
+
+        .glow-2 {
+            width: 600px;
+            height: 600px;
+            background: #9333ea;
+            bottom: -200px;
+            right: -150px;
+            animation-delay: -5s;
+            animation-duration: 20s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(80px, 80px) scale(1.1);
+            }
         }
 
         header {
-            background-color: #1f2937;
-            color: white;
-            padding: 30px 20px;
+            padding: 80px 20px 40px;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         header h1 {
-            margin: 0;
-            font-size: 2.2rem;
-            letter-spacing: 1px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #60a5fa, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            text-shadow: 0 0 40px rgba(192, 132, 252, 0.2);
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 24px;
+            border-radius: 40px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .control-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .control-btn.active svg {
+            opacity: 1;
         }
 
         .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 40px 80px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 35px;
+            transition: all 0.5s ease;
+        }
+
+        /* List View Modifier */
+        .container.list-view {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px;
-            gap: 25px;
+            max-width: 900px;
         }
 
         .card {
-            width: 90%;
-            max-width: 500px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 24px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.2);
         }
 
+        /* Inner Glow */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 24px;
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.05) 40%, rgba(255, 255, 255, 0));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.7;
+            transition: opacity 0.4s ease;
+        }
+
+        /* Hover states for card */
         .card:hover {
-            transform: scale(1.02);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 25px var(--accent-glow);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0));
+        }
+
+        .card-img-wrapper {
+            width: 100%;
+            height: 220px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            position: relative;
+            background: rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .card img {
             width: 100%;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        .card a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            padding: 15px;
+        .card:hover img {
+            transform: scale(1.08);
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(15, 23, 42, 0.8) 0%, rgba(15, 23, 42, 0) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .view-btn {
+            background: white;
+            color: #0f172a;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-btn::after {
+            content: "→";
+            font-weight: 400;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .view-btn {
+            transform: translateY(0);
+        }
+
+        .view-btn:hover {
+            background: #f8fafc;
+            transform: translateY(-2px) !important;
+        }
+
+        .view-btn:hover::after {
+            transform: translateX(4px);
         }
 
         .title {
-            font-size: 1.1rem;
+            font-size: 1.25rem;
             font-weight: 600;
             text-align: center;
-            color: #333;
-            margin-top: 10px;
+            line-height: 1.5;
+            color: var(--text-main);
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        /* Adjustments for List View */
+        .container.list-view .card {
+            width: 100%;
+            flex-direction: row;
+            text-align: left;
+            padding: 24px;
+            gap: 30px;
+        }
+
+        .container.list-view .card-img-wrapper {
+            margin-bottom: 0;
+            width: 160px;
+            height: 120px;
+            flex-shrink: 0;
+        }
+
+        .container.list-view .title {
+            text-align: left;
+            font-size: 1.5rem;
+            flex-grow: 1;
+            padding: 0;
+        }
+
+        .container.list-view .card-overlay,
+        .container.list-view .view-btn {
+            display: none;
+            /* Hide overlay button in list view, or keep it differently */
+        }
+
+        .container.list-view .card::after {
+            content: "→";
+            font-size: 2rem;
+            color: var(--text-secondary);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .container.list-view .card:hover::after {
+            opacity: 1;
+            transform: translateX(0);
+            color: var(--text-main);
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 60px 20px 30px;
+            }
+
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            .container {
+                padding: 0 20px 60px;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+
+            .container.list-view .card {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .container.list-view .card-img-wrapper {
+                width: 100%;
+                height: 200px;
+            }
+
+            .container.list-view .title {
+                text-align: center;
+                font-size: 1.25rem;
+            }
+
+            .container.list-view .card::after {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- Abstract gradient orbs for background depth -->
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
 
     <header>
-        <h1>Gaurav Patel - Certificates</h1>
+        <h1>Gaurav Patel</h1>
+        <p>A showcase of professional certifications highlighting continuous learning and technical expertise across
+            various domains.</p>
     </header>
 
-    <div class="container">
-        
-        <div class="card">
-            <a href="https://learn.microsoft.com/en-us/users/gauravpatel-9566/credentials/c344e6c13032cfe0?ref=https%3A%2F%2Fwww.linkedin.com%2F" target="_blank">
-                <img src="images/ai.png" alt="AI-900" />
-                <div class="title">Microsoft Azure AI 900 Certified </div>
-            </a>
-        </div>
-
-        <div class="card">
-            <a href="https://achieve.snowflake.com/8026bbe9-d22b-4285-b907-4e18895f1e42#acc.nktdSFey" target="_blank">
-                <img src="DWW.png" alt="Snowflake Data Warehouse Essentials" />
-                <div class="title">Snowflake Data Warehouse Essentials</div>
-            </a>
-        </div>
-
-        <div class="card">
-            <a href="https://www.cloudskillsboost.google/public_profiles/9dbb95c1-8cd0-495a-9679-f4aca25aa13f/badges/4451681"
-                target="_blank">
-                <img src="images/Go.png" alt="Getting Started with Go Badge" />
-                <div class="title">Getting Started with Go on Google Cloud</div>
-            </a>
-        </div>
-
-        <div class="card">
-            <a href="https://www.cloudskillsboost.google/public_profiles/9dbb95c1-8cd0-495a-9679-f4aca25aa13f/badges/4418326"
-                target="_blank">
-                <img src="images/Kubernetes.png" alt="Deploy to Kubernetes Badge" />
-                <div class="title">Deploy to Kubernetes in Google Cloud</div>
-            </a>
-        </div>
-
-        <div class="card">
-            <a href="https://www.hackerrank.com/certificates/iframe/8c56ffad9218" target="_blank">
-                <img src="images/sql.png" alt="SQL Basic" />
-                <div class="title">HackerRank SQL Basic</div>
-            </a>
-        </div>
-
-        <div class="card">
-            <a href="https://www.hackerrank.com/certificates/iframe/24fc1375d955" target="_blank">
-                <img src="images/sql_advanced certificate.png" alt="SQL Advanced" />
-                <div class="title">HackerRank SQL Advanced</div>
-            </a>
-        </div>
-
-        <div class="card">
-            <a href="https://www.hackerrank.com/certificates/iframe/87d52978ff12" target="_blank">
-                <img src="images/python.png" alt="Python Basic" />
-                <div class="title">HackerRank Python</div>
-            </a>
-        </div>
+    <div class="controls">
+        <button class="control-btn active" id="btn-grid" onclick="setView('grid')">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 4h6v6H4zm10 0h6v6h-6zM4 14h6v6H4zm10 0h6v6h-6z" />
+            </svg>
+            Grid
+        </button>
+        <button class="control-btn" id="btn-list" onclick="setView('list')">
+            <svg viewBox="0 0 24 24">
+                <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+            </svg>
+            List
+        </button>
     </div>
 
+    <div class="container" id="cert-container">
+
+        <a href="https://www.credly.com/badges/0b8f0d19-a488-4a4d-93e2-ac1a9cb53377" target="_blank" class="card">
+            <div class="card-img-wrapper">
+                <img src="images/gcp_ace.jpg" alt="Google Cloud -> ACE" />
+                <div class="card-overlay"><span class="view-btn">View Credential</span></div>
+            </div>
+            <div class="title">GCP - Associate Cloud Engineer</div>
+        </a>
+
+        <a href="https://learn.microsoft.com/en-us/users/gauravpatel-9566/credentials/c344e6c13032cfe0?ref=https%3A%2F%2Fwww.linkedin.com%2F"
+            target="_blank" class="card">
+            <div class="card-img-wrapper">
+                <img src="images/ai.png" alt="AI-900" />
+                <div class="card-overlay"><span class="view-btn">View Credential</span></div>
+            </div>
+            <div class="title">Microsoft Azure AI 900 Certified</div>
+        </a>
+
+        <a href="https://achieve.snowflake.com/8026bbe9-d22b-4285-b907-4e18895f1e42#acc.nktdSFey" target="_blank"
+            class="card">
+            <div class="card-img-wrapper">
+                <img src="DWW.png" alt="Snowflake Data Warehouse Essentials" />
+                <div class="card-overlay"><span class="view-btn">View Credential</span></div>
+            </div>
+            <div class="title">Snowflake Data Warehouse Essentials</div>
+        </a>
+
+        <a href="https://www.cloudskillsboost.google/public_profiles/9dbb95c1-8cd0-495a-9679-f4aca25aa13f/badges/4451681"
+            target="_blank" class="card">
+            <div class="card-img-wrapper">
+                <img src="images/Go.png" alt="Getting Started with Go Badge" />
+                <div class="card-overlay"><span class="view-btn">View Credential</span></div>
+            </div>
+            <div class="title">Getting Started with Go on Google Cloud</div>
+        </a>
+
+        <a href="https://www.cloudskillsboost.google/public_profiles/9dbb95c1-8cd0-495a-9679-f4aca25aa13f/badges/4418326"
+            target="_blank" class="card">
+            <div class="card-img-wrapper">
+                <img src="images/Kubernetes.png" alt="Deploy to Kubernetes Badge" />
+                <div class="card-overlay"><span class="view-btn">View Credential</span></div>
+            </div>
+            <div class="title">Deploy to Kubernetes in Google Cloud</div>
+        </a>
+
+        <a href="https://www.hackerrank.com/certificates/iframe/8c56ffad9218" target="_blank" class="card">
+            <div class="card-img-wrapper">
+                <img src="images/sql.png" alt="SQL Basic" />
+                <div class="card-overlay"><span class="view-btn">View Credential</span></div>
+            </div>
+            <div class="title">HackerRank SQL Basic</div>
+        </a>
+
+        <a href="https://www.hackerrank.com/certificates/iframe/24fc1375d955" target="_blank" class="card">
+            <div class="card-img-wrapper">
+                <img src="images/sql_advanced certificate.png" alt="SQL Advanced" />
+                <div class="card-overlay"><span class="view-btn">View Credential</span></div>
+            </div>
+            <div class="title">HackerRank SQL Advanced</div>
+        </a>
+
+        <a href="https://www.hackerrank.com/certificates/iframe/87d52978ff12" target="_blank" class="card">
+            <div class="card-img-wrapper">
+                <img src="images/python.png" alt="Python Basic" />
+                <div class="card-overlay"><span class="view-btn">View Credential</span></div>
+            </div>
+            <div class="title">HackerRank Python</div>
+        </a>
+    </div>
+
+    <script>
+        function setView(viewMode) {
+            const container = document.getElementById('cert-container');
+            const btnGrid = document.getElementById('btn-grid');
+            const btnList = document.getElementById('btn-list');
+
+            if (viewMode === 'list') {
+                container.classList.add('list-view');
+                btnList.classList.add('active');
+                btnGrid.classList.remove('active');
+            } else {
+                container.classList.remove('list-view');
+                btnGrid.classList.add('active');
+                btnList.classList.remove('active');
+            }
+        }
+    </script>
 </body>
 
 </html>
